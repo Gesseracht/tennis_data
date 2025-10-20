@@ -64,7 +64,7 @@ host = os.environ["RAPIDAPI_HOST"]
 for day in range(1, 32):
     print(f'day number {day}')
     time.sleep(2)
-    url = f"https://{host}/api/tennis/events/{day}/7/2025"
+    url = f"https://{host}/api/tennis/events/{day}/12/2024"
     
     try:
         response = requests.get(url, headers=headers)
@@ -96,7 +96,7 @@ df = df.sort_values(by='start_timestamp', ascending=True).reset_index(drop=True)
 
 
 grandparent = Path(__file__).resolve().parent.parent
-csv_path = os.path.join(grandparent, r'raw\tennis_games_july.csv')
+csv_path = os.path.join(grandparent, r'raw\tennis_games_december_2024.csv')
 df.to_csv(csv_path, index=False)
 
 print(f"Final dataset shape (after removing doubles): {df.shape}")

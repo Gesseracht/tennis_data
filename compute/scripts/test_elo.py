@@ -9,6 +9,8 @@ grandparent = Path(__file__).resolve().parent.parent.parent
 path_file = os.path.join(grandparent, r'data\raw\tennis_games_january.csv')
 
 df = pd.read_csv(path_file)
+df = df.drop_duplicates()
+df = df[df['category_name'] != 'WTA']
 df_copy = df.dropna(subset=['winner'], axis=0)
 
 elo = ELO()
@@ -19,4 +21,4 @@ for _, row in df_copy.iterrows():
     winner = row['winner']
     elo.update_match(player_a, player_b, winner)
 
-print(elo.get_elo('Reilly Opelka'))
+print(elo.get_leaderboard())

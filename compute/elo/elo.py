@@ -1,4 +1,5 @@
 import numpy as np
+import pandas as pd
 
 class ELO:
     def __init__(self):
@@ -42,5 +43,25 @@ class ELO:
 
         self.players[player1]['n_games'] += 1
         self.players[player2]['n_games'] += 1
+
+    def get_leaderboard(self, top_n=10):
+        sorted_players = sorted(self.players.items(), 
+                            key=lambda x: x[1]['elo'], 
+                            reverse=True)[:top_n]
+        
+        # Créer une liste de dictionnaires
+        data = [
+            {
+                'Rank': i + 1,
+                'Player': player_name,
+                'Elo': info['elo'],
+                'Games': info['n_games']
+            }
+            for i, (player_name, info) in enumerate(sorted_players)
+        ]
+        
+        return pd.DataFrame(data)
+
+
 
 

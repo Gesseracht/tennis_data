@@ -49,7 +49,6 @@ class ELO:
                             key=lambda x: x[1]['elo'], 
                             reverse=True)[:top_n]
         
-        # Créer une liste de dictionnaires
         data = [
             {
                 'Rank': i + 1,
@@ -60,7 +59,9 @@ class ELO:
             for i, (player_name, info) in enumerate(sorted_players)
         ]
         
-        return pd.DataFrame(data)
+        df = pd.DataFrame(data)
+        df.set_index('Rank', inplace=True)
+        return df
 
 
 

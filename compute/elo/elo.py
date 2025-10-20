@@ -9,7 +9,8 @@ class ELO:
         if player_name not in self.players:
             self.players[player_name] = {
                 'elo': 400,
-                'n_games':0
+                'n_games':0,
+                'history': []
             }
 
     def get_k(self, player_name):
@@ -21,7 +22,7 @@ class ELO:
         self._initialize_player(player_name)
         return self.players[player_name]['elo']
     
-    def update_match(self, player1, player2, winner):
+    def update_match(self, date, player1, player2, winner):
         r1 = self.get_elo(player1)
         r2 = self.get_elo(player2)
 
@@ -31,7 +32,7 @@ class ELO:
         e1 = 1 / (1 + 10 ** ((r2 - r1) / 400))
         e2 = 1 / (1 + 10 ** ((r1 - r2) / 400))
 
-        # winner is store as 1 for player1 or 2 for player2
+        # winner stored as 1 for player1 or 2 for player2
         s1 = int(winner == 1)
         s2 = int(winner == 2)
 
@@ -43,6 +44,9 @@ class ELO:
 
         self.players[player1]['n_games'] += 1
         self.players[player2]['n_games'] += 1
+
+        self.players[player1]['history'].append((date, r1_prime))
+        self.players[player2]['history'].append((date, r2_prime))
 
     def get_leaderboard(self, top_n=10):
         sorted_players = sorted(self.players.items(), 

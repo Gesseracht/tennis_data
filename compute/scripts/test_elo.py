@@ -16,9 +16,10 @@ df_copy = df.dropna(subset=['winner'], axis=0)
 elo = ELO()
 
 for _, row in df_copy.iterrows():
+    date = row['start_timestamp']
     player_a = row['home_team']
     player_b = row['away_team']
     winner = row['winner']
-    elo.update_match(player_a, player_b, winner)
+    elo.update_match(date, player_a, player_b, winner)
 
 print(elo.get_leaderboard())
